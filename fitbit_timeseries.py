@@ -1,5 +1,6 @@
 from fitbit import Fitbit
 from datetime import date
+import json
 
 class FitbitTimeseries():
 
@@ -7,6 +8,19 @@ class FitbitTimeseries():
         self.fitbit = fitbit;
         if (self.fitbit.token == None):
             self.fitbit.get_token()
+
+    def get_time_series(self, resource_path, to_date=date.today().isoformat(), from_date=None, period='max', format='json'):
+        # from_date and to_date in the format yyyy-MM-dd
+        # period can be one of {1d, 7d, 30d, 1w, 1m, 3m, 6m, 1y, max}
+        # to_date takes precedence over period, if both are given
+        # use fitbit_timeseries helper functions for a list of possible resource paths
+        if (from_date == None):
+            url = "/1/user/-/{0}/date/{1}/{2}.{3}".format(resource_path, to_date, period, format)
+        else:
+            url = "/1/user/-/{0}/date/{1}/{2}.{3}".format(resource_path, from_date, to_date, format)
+        data = self.fitbit.call_get_api(url)
+        return json.loads(data)
+        return
 
     # foods/log/caloriesIn
     def get_foods_caloriesIn(self, to_date=date.today().isoformat(), from_date=None, period='max', format='json'):
@@ -26,7 +40,7 @@ class FitbitTimeseries():
 
     # activities/steps
     def get_activities_steps(self, to_date=date.today().isoformat(), from_date=None, period='max', format='json'):
-        return self.fitbit.get_time_series(resource_path='activities/steps', to_date=to_date, from_date=from_date, period=period, format=format)
+         return self.fitbit.get_time_series(resource_path='activities/steps', to_date=to_date, from_date=from_date, period=period, format=format)
 
     # activities/distance
     def get_activities_distance(self, to_date=date.today().isoformat(), from_date=None, period='max', format='json'):
