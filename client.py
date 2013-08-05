@@ -17,10 +17,10 @@ if args['debug']:
 else:
     logging.basicConfig(level=logging.INFO)
 
-consumer_key = "c9c3c3541fc14f8e839b5e51d21e7011"
-consumer_secret = "353a8e82be6748dc9d83fba425fe0af5"
-access_token_key = "f42721b1a764eab409991c0419ba58ed"
-access_token_secret = "e2fae176127c712f1e54a14da23b051b"
+consumer_key = "<add-your-consumer-key-here"
+consumer_secret = "add-your-consumer-secret-here"
+access_token_key = "<add-your-token-key-here>"
+access_token_secret = "<add-your-token-secret-here>"
 
 # fitbit = fitbit.Fitbit(consumer_key, consumer_secret)
 fitbit = Fitbit(consumer_key, consumer_secret, access_token_key, access_token_secret)
