@@ -6,8 +6,7 @@ from fitbit_resources import FitbitResources
 """ A simple command-line client to demontrate usage of the library. """
 
 parser = argparse.ArgumentParser(description = "Use the Fitbit API")
-# parser.add_argument('start_date', type = str, help = "Start date, like: 2013-03-20")
-# parser.add_argument('end_date', type = str, help = "End date, like: 2013-03-21")
+parser.add_argument('--date', default = '2012-03-14', type = str, help = "Start date, like: 2012-03-14")
 parser.add_argument('--debug', default = False, action="store_true", help = "Turn on verbose debugging")
 
 args = vars(parser.parse_args())
@@ -17,118 +16,44 @@ if args['debug']:
 else:
     logging.basicConfig(level=logging.INFO)
 
-consumer_key = "<add-your-consumer-key-here"
-consumer_secret = "add-your-consumer-secret-here"
-access_token_key = "<add-your-token-key-here>"
-access_token_secret = "<add-your-token-secret-here>"
+consumer_key = "add_your_consumer_key_here"
+consumer_secret = "add_your_consumer_secret_here"
+access_token_key = "add_your_token_key_here"
+access_token_secret = "add_your_token_secret_here"
 
-# fitbit = fitbit.Fitbit(consumer_key, consumer_secret)
-fitbit = Fitbit(consumer_key, consumer_secret, access_token_key, access_token_secret)
+fitbit = Fitbit(consumer_key, consumer_secret)
+# fitbit = Fitbit(consumer_key, consumer_secret, access_token_key, access_token_secret)
 if (fitbit.token == None):
 		fitbit.get_token()
 
+logger = fitbit.logger
+
+if args['date']:
+	date = args['date']
+else:
+	date = '2012-03-14'
+
 fitbit_resources = FitbitResources(fitbit)
 
+print '\nget user info:\n'
 pprint.pprint(fitbit_resources.get_user_info())
+print '\nget body measurements:\n'
+pprint.pprint(fitbit_resources.get_body_measurements(on_date=date))
+print '\nget activities:\n'
+pprint.pprint(fitbit_resources.get_activities(on_date=date))
 
-pprint.pprint(fitbit_resources.get_body_measurements(date='2012-03-14'))
+fitbit_timeseries = FitbitTimeseries(fitbit)
 
-# pprint.pprint(fitbit_resources.get_body_weight(to_date='2012-03-14'))
-# pprint.pprint(fitbit_resources.get_body_weight(to_date='2012-03-14', from_date='2012-02-17'))
-# pprint.pprint(fitbit_resources.get_body_weight(to_date='2012-03-14', period='1m'))
+print '\nget activities steps:\n'
+pprint.pprint(fitbit_timeseries.get_activities_steps())
+print '\nget activities distance:\n'
+pprint.pprint(fitbit_timeseries.get_activities_distance())
 
-# pprint.pprint(fitbit_resources.get_body_fat(to_date='2012-03-14'))
-# pprint.pprint(fitbit_resources.get_body_fat(to_date='2012-03-14', from_date='2012-02-17'))
-# pprint.pprint(fitbit_resources.get_body_fat(to_date='2012-03-14', period='1m'))
+print '\nget activities tracker steps:\n'
+pprint.pprint(fitbit_timeseries.get_activities_tracker_steps())
+print '\nget activities tracker distance:\n'
+pprint.pprint(fitbit_timeseries.get_activities_tracker_distance())
 
-# pprint.pprint(fitbit_resources.get_body_weight_goal())
-# pprint.pprint(fitbit_resources.get_body_fat_goal())
-
-# pprint.pprint(fitbit_resources.get_activities(date='2012-03-14'))
-# pprint.pprint(fitbit_resources.get_activity_daily_goals())
-# pprint.pprint(fitbit_resources.get_activity_weekly_goals())
-
-# pprint.pprint(fitbit_resources.get_foods(date='2012-03-14'))
-# pprint.pprint(fitbit_resources.get_water(date='2012-03-14'))
-# pprint.pprint(fitbit_resources.get_food_goals())
-
-# pprint.pprint(fitbit_resources.get_sleep(date='2012-03-14'))
-# pprint.pprint(fitbit_resources.get_heart_rate(date='2012-03-14'))
-# pprint.pprint(fitbit_resources.get_blood_pressure(date='2012-03-14'))
-# pprint.pprint(fitbit_resources.get_glucose(date='2012-03-14'))
-
-# get_time_series tested separately, through the helper functions in fitbit_resources_timeseries
-
-# pprint.pprint(fitbit_resources.get_activity_stats())
-# pprint.pprint(fitbit_resources.get_recent_activities())
-# pprint.pprint(fitbit_resources.get_frequent_activities())
-# pprint.pprint(fitbit_resources.get_favorite_activities())
-
-# pprint.pprint(fitbit_resources.get_recent_foods())
-# pprint.pprint(fitbit_resources.get_frequent_foods())
-# pprint.pprint(fitbit_resources.get_favorite_foods())
-# pprint.pprint(fitbit_resources.get_meals())
-
-# pprint.pprint(fitbit_resources.get_friends())
-# pprint.pprint(fitbit_resources.get_friends_leaderboard())
-# pprint.pprint(fitbit_resources.get_invites()) # getting 401 Unauthorized - works in API explorer
-# pprint.pprint(fitbit_resources.get_badges())
-
-# devices = fitbit_resources.get_devices()
-# pprint.pprint(devices)
-# pprint.pprint(fitbit_resources.get_alarms('198353')) # getting 400 Bad request - also no longer available in the API explorer
-
-# activities = fitbit_resources.browse_activities()
-# pprint.pprint(activities)
-# pprint.pprint(fitbit_resources.get_activity(activities['categories'][0]['activities'][0]['id']))
-
-# white_bread = fitbit_resources.search_foods('white bread')
-# pprint.pprint(white_bread)
-# pprint.pprint(fitbit_resources.get_food(white_bread['foods'][0]['foodId']))
-
-# pprint.pprint(fitbit_resources.get_food_units())
-
-
-# fitbit_timeseries = FitbitTimeseries(fitbit)
-
-# pprint.pprint(fitbit_timeseries.get_foods_caloriesIn())
-# pprint.pprint(fitbit_timeseries.get_foods_water())
-
-# pprint.pprint(fitbit_timeseries.get_activities_calories())
-# pprint.pprint(fitbit_timeseries.get_activities_caloriesBMR())
-# pprint.pprint(fitbit_timeseries.get_activities_steps())
-# pprint.pprint(fitbit_timeseries.get_activities_distance())
-# pprint.pprint(fitbit_timeseries.get_activities_floors())
-# pprint.pprint(fitbit_timeseries.get_activities_elevation())
-# pprint.pprint(fitbit_timeseries.get_activities_minutesSedentary())
-# pprint.pprint(fitbit_timeseries.get_activities_minutesLightlyActive())
-# pprint.pprint(fitbit_timeseries.get_activities_minutesFairlyActive())
-# pprint.pprint(fitbit_timeseries.get_activities_minutesVeryActive())
-# pprint.pprint(fitbit_timeseries.get_activities_activeScore())
-# pprint.pprint(fitbit_timeseries.get_activities_activityCalories())
-
-# pprint.pprint(fitbit_timeseries.get_activities_tracker_calories())
-# pprint.pprint(fitbit_timeseries.get_activities_tracker_steps())
-# pprint.pprint(fitbit_timeseries.get_activities_tracker_distance())
-# pprint.pprint(fitbit_timeseries.get_activities_tracker_floors())
-# pprint.pprint(fitbit_timeseries.get_activities_tracker_elevation())
-# pprint.pprint(fitbit_timeseries.get_activities_tracker_minutesSedentary())
-# pprint.pprint(fitbit_timeseries.get_activities_tracker_minutesLightlyActive())
-# pprint.pprint(fitbit_timeseries.get_activities_tracker_minutesFairlyActive())
-# pprint.pprint(fitbit_timeseries.get_activities_tracker_minutesVeryActive())
-# pprint.pprint(fitbit_timeseries.get_activities_tracker_activeScore())
-# pprint.pprint(fitbit_timeseries.get_activities_tracker_activityCalories())
-
-# pprint.pprint(fitbit_timeseries.get_sleep_startTime())
-# pprint.pprint(fitbit_timeseries.get_sleep_timeInBed())
-# pprint.pprint(fitbit_timeseries.get_sleep_minutesAsleep())
-# pprint.pprint(fitbit_timeseries.get_sleep_awakeningsCount())
-# pprint.pprint(fitbit_timeseries.get_sleep_minutesAwake())
-# pprint.pprint(fitbit_timeseries.get_sleep_minutesToFallAsleep())
-# pprint.pprint(fitbit_timeseries.get_sleep_minutesAfterWakeup())
-# pprint.pprint(fitbit_timeseries.get_sleep_efficiency())
-
-# pprint.pprint(fitbit_timeseries.get_body_weight())
-# pprint.pprint(fitbit_timeseries.get_body_bmi())
-# pprint.pprint(fitbit_timeseries.get_body_fat())
+print '\nget body weight:\n'
+pprint.pprint(fitbit_timeseries.get_body_weight())
 
