@@ -20,41 +20,37 @@ class FitbitResources():
 
     # * body collection 
 
-    def get_body_measurements(self, on_date=date.today().isoformat(), format='json'):
-        # date in the format yyyy-MM-dd
+    def get_body_measurements(self, on_date=date.today(), format='json'):
         # no validation of the date parameter! maybe should add some? 
-        url = "/1/user/-/body/date/{0}.{1}".format(on_date, format)
+        url = "/1/user/-/body/date/{0}.{1}".format(on_date.isoformat(), format)
         data = self.fitbit.call_get_api(url)
         return json.loads(data)
     
-    def get_body_weight(self, to_date=date.today().isoformat(), from_date=None, period=None, format='json'):
-        # from_date in the format yyyy-MM-dd
-        # to_date in the format yyyy-MM-dd
+    def get_body_weight(self, to_date=date.today(), from_date=None, period=None, format='json'):
         # period can be one of {1d, 7d, 30d, 1w, 1m}
         # from_date takes precedence over period, if both are given
         # the number of days in the range given should not be longer than 31 days
         if (from_date == None):
             if (period == None):
-                url = "/1/user/-/body/log/weight/date/{0}.{1}".format(to_date, format)
+                url = "/1/user/-/body/log/weight/date/{0}.{1}".format(to_date.isoformat(), format)
             else:
-                url = "/1/user/-/body/log/weight/date/{0}/{1}.{2}".format(to_date, period, format)
+                url = "/1/user/-/body/log/weight/date/{0}/{1}.{2}".format(to_date.isoformat(), period, format)
         else:
-            url = "/1/user/-/body/log/weight/date/{0}/{1}.{2}".format(from_date, to_date, format)
+            url = "/1/user/-/body/log/weight/date/{0}/{1}.{2}".format(from_date.isoformat(), to_date.isoformat(), format)
         data = self.fitbit.call_get_api(url)
         return json.loads(data)
     
-    def get_body_fat(self, to_date=date.today().isoformat(), from_date=None, period=None, format='json'):
-        # from_date and to_date in the format yyyy-MM-dd
+    def get_body_fat(self, to_date=date.today(), from_date=None, period=None, format='json'):
         # period can be one of {1d, 7d, 30d, 1w, 1m}
         # to_date takes precedence over period, if both are given
         # the number of days in the range given should not be longer than 31 days
         if (from_date == None):
             if (period == None):
-                url = "/1/user/-/body/log/fat/date/{0}.{1}".format(to_date, format)
+                url = "/1/user/-/body/log/fat/date/{0}.{1}".format(to_date.isoformat(), format)
             else:
-                url = "/1/user/-/body/log/fat/date/{0}/{1}.{2}".format(to_date, period, format)
+                url = "/1/user/-/body/log/fat/date/{0}/{1}.{2}".format(to_date.isoformat(), period, format)
         else:
-            url = "/1/user/-/body/log/fat/date/{0}/{1}.{2}".format(from_date, to_date, format)
+            url = "/1/user/-/body/log/fat/date/{0}/{1}.{2}".format(from_date.isoformat(), to_date.isoformat(), format)
         data = self.fitbit.call_get_api(url)
         return json.loads(data)
 
@@ -70,9 +66,9 @@ class FitbitResources():
 
     # * activities collection
 
-    def get_activities(self, on_date=date.today().isoformat(), format='json'):
+    def get_activities(self, on_date=date.today(), format='json'):
         # date in the format yyyy-MM-dd
-        url = "/1/user/-/activities/date/{0}.{1}".format(on_date, format)
+        url = "/1/user/-/activities/date/{0}.{1}".format(on_date.isoformat(), format)
         data = self.fitbit.call_get_api(url)
         return json.loads(data)
 
@@ -88,15 +84,15 @@ class FitbitResources():
 
     # * foods collection
 
-    def get_foods(self, on_date=date.today().isoformat(), format='json'):
+    def get_foods(self, on_date=date.today(), format='json'):
         # date in the format yyyy-MM-dd
-        url = "/1/user/-/foods/log/date/{0}.{1}".format(on_date, format)
+        url = "/1/user/-/foods/log/date/{0}.{1}".format(on_date.isoformat(), format)
         data = self.fitbit.call_get_api(url)
         return json.loads(data)
 
-    def get_water(self, on_date=date.today().isoformat(), format='json'):
+    def get_water(self, on_date=date.today(), format='json'):
         # date in the format yyyy-MM-dd
-        url = "/1/user/-/foods/log/water/date/{0}.{1}".format(on_date, format)
+        url = "/1/user/-/foods/log/water/date/{0}.{1}".format(on_date.isoformat(), format)
         data = self.fitbit.call_get_api(url)
         return json.loads(data)
 
@@ -107,33 +103,33 @@ class FitbitResources():
 
     # * sleep collection
 
-    def get_sleep(self, on_date=date.today().isoformat(), format='json'):
+    def get_sleep(self, on_date=date.today(), format='json'):
         # date in the format yyyy-MM-dd
-        url = "/1/user/-/sleep/date/{0}.{1}".format(on_date, format)
+        url = "/1/user/-/sleep/date/{0}.{1}".format(on_date.isoformat(), format)
         data = self.fitbit.call_get_api(url)
         return json.loads(data)
 
     # * heart collection
 
-    def get_heart_rate(self, on_date=date.today().isoformat(), format='json'):
+    def get_heart_rate(self, on_date=date.today(), format='json'):
         # date in the format yyyy-MM-dd
-        url = "/1/user/-/heart/date/{0}.{1}".format(on_date, format)
+        url = "/1/user/-/heart/date/{0}.{1}".format(on_date.isoformat(), format)
         data = self.fitbit.call_get_api(url)
         return json.loads(data)
 
     # * blood pressure collection
 
-    def get_blood_pressure(self, on_date=date.today().isoformat(), format='json'):
+    def get_blood_pressure(self, on_date=date.today(), format='json'):
         # date in the format yyyy-MM-dd
-        url = "/1/user/-/bp/date/{0}.{1}".format(on_date, format)
+        url = "/1/user/-/bp/date/{0}.{1}".format(on_date.isoformat(), format)
         data = self.fitbit.call_get_api(url)
         return json.loads(data)
 
     # * glucose collection 
 
-    def get_glucose(self, on_date=date.today().isoformat(), format='json'):
+    def get_glucose(self, on_date=date.today(), format='json'):
         # date in the format yyyy-MM-dd
-        url = "/1/user/-/glucose/date/{0}.{1}".format(on_date, format)
+        url = "/1/user/-/glucose/date/{0}.{1}".format(on_date.isoformat(), format)
         data = self.fitbit.call_get_api(url)
         return json.loads(data)
 

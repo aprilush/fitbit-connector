@@ -1,5 +1,4 @@
 import json, urllib, urllib2, urlparse, logging, cookielib, pprint
-from datetime import date
 import oauth2 as oauth
 
 # TODO add an accept-language header to set the measurement units to us or metric
